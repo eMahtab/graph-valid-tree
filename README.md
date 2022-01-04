@@ -5,6 +5,8 @@ You have a graph of n nodes labeled from 0 to n - 1. You are given an integer n 
 
 Return true if the edges of the given graph make up a valid tree, and false otherwise.
 
+![Graph Valid Tree](example.JPG?raw=true)
+
 ## Approach :
 A graph will be a valid tree only if, it doesn't have cycles and it doesn't have disconnected components.
 
