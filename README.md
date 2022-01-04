@@ -1,6 +1,9 @@
 # Graph Valid Tree
 ## https://leetcode.com/problems/graph-valid-tree
 
+## Approach :
+A graph will be a valid tree only if, it doesn't have cycles and it doesn't have disconnected components.
+So if a graph doesn't have cycles and its connected (if we start from any vertex we can reach all other vertices), it will be a valid tree.
 
 # Implementation 1 :
 ```java
@@ -42,3 +45,6 @@ class Solution {
     }
 }
 ```
+
+# References :
+1. https://www.youtube.com/watch?v=bXsUuownnoQ
