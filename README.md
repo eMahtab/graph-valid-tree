@@ -83,7 +83,7 @@ class Solution {
     }
 }
 ```
-# Implementation 3 : O(n)
+# Implementation 3 : O(n) : For the graph to be a valid tree, it must have exactly n - 1 edges and all the vertices should be reachable
 ```java
 class Solution {
     public boolean validTree(int n, int[][] edges) {
@@ -120,3 +120,4 @@ class Solution {
 
 # References :
 1. https://www.youtube.com/watch?v=bXsUuownnoQ
+2. https://leetcode.com/problems/graph-valid-tree/editorial
