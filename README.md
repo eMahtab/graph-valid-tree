@@ -16,39 +16,35 @@ So if a graph doesn't have cycles and its connected (if we start from any vertex
 ```java
 class Solution {
     public boolean validTree(int n, int[][] edges) {
-        if(n == 0)
-            return true;
-        Map<Integer,List<Integer>> graph = new HashMap<>();
+        Map<Integer,Set<Integer>> graph = new HashMap<>();
         for(int[] edge : edges) {
-            graph.putIfAbsent(edge[0], new ArrayList<Integer>());
-            graph.get(edge[0]).add(edge[1]);
-            graph.putIfAbsent(edge[1], new ArrayList<Integer>());
-            graph.get(edge[1]).add(edge[0]);
+            int u = edge[0];
+            int v = edge[1];
+            graph.putIfAbsent(u, new HashSet<Integer>());
+            graph.get(u).add(v);
+            graph.putIfAbsent(v, new HashSet<Integer>());
+            graph.get(v).add(u);
         }
-        
-        int parentVertex = -1;
         Set<Integer> visited = new HashSet<>();
-        return dfs(0,-1, graph, visited) && visited.size() == n;
-        
+        boolean containsCycle = checkCycle(0, -1, graph, visited);
+        return !containsCycle && visited.size() == n;
     }
-    
-    private boolean dfs(int n, int parentVertex, Map<Integer,List<Integer>> graph, Set<Integer> visited) {
-        if(visited.contains(n)) 
-            return false;
-        visited.add(n);
-        // traverse neighbors
-        List<Integer> neighbors = graph.get(n);
+
+    private boolean checkCycle(int vertex, int parent, Map<Integer,Set<Integer>> graph, Set<Integer> visited) {
+        if(visited.contains(vertex))
+            return true;
+        visited.add(vertex);    
+        Set<Integer> neighbors = graph.get(vertex);
         if(neighbors != null) {
-           for(int neighbor : neighbors) {
-             if(neighbor != parentVertex) {
-                boolean result = dfs(neighbor, n, graph, visited);
-                if(!result)
-                    return false;
-             }
-           }
+            for(int neighbor : neighbors) {
+                if(neighbor != parent) {
+                    boolean hasCycle = checkCycle(neighbor, vertex, graph, visited);
+                    if(hasCycle)
+                     return true;
+                }
+            }
         }
-        
-        return true;
+        return false;
     }
 }
 ```
