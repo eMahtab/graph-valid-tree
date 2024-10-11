@@ -83,6 +83,40 @@ class Solution {
     }
 }
 ```
+# Implementation 3 : O(n)
+```java
+class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        if(edges.length != n-1) return false;
+        Map<Integer,Set<Integer>> graph = new HashMap<>();
+        for(int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            graph.putIfAbsent(u, new HashSet<Integer>());
+            graph.get(u).add(v);
+            graph.putIfAbsent(v, new HashSet<Integer>());
+            graph.get(v).add(u);
+        }
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
+        while(!queue.isEmpty()) {
+            int vertex = queue.remove();
+            if(visited.contains(vertex))
+               continue;
+            visited.add(vertex);
+            Set<Integer> neighbors = graph.get(vertex);
+            if(neighbors != null) {
+                for(int neighbor : neighbors) {
+                    if(!visited.contains(neighbor))
+                      queue.add(neighbor);   
+                }
+            }    
+        }
+        return visited.size() == n;
+    }
+}
+```
 
 # References :
 1. https://www.youtube.com/watch?v=bXsUuownnoQ
