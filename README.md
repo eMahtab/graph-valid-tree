@@ -12,7 +12,7 @@ A graph will be a valid tree only if, it doesn't have cycles and it doesn't have
 
 So if a graph doesn't have cycles and its connected (if we start from any vertex we can reach all other vertices), it will be a valid tree.
 
-# Implementation 1 :
+# Implementation 1 : DFS
 ```java
 class Solution {
     public boolean validTree(int n, int[][] edges) {
@@ -45,6 +45,41 @@ class Solution {
             }
         }
         return false;
+    }
+}
+```
+# Implementation 2 : BFS
+```java
+class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        Map<Integer,Set<Integer>> graph = new HashMap<>();
+        for(int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            graph.putIfAbsent(u, new HashSet<Integer>());
+            graph.get(u).add(v);
+            graph.putIfAbsent(v, new HashSet<Integer>());
+            graph.get(v).add(u);
+        }
+        Set<Integer> visited = new HashSet<>();
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{0, -1});
+        while(!queue.isEmpty()) {
+            int[] node = queue.remove();
+            int vertex = node[0], parent = node[1];
+            if(visited.contains(vertex))
+               return false;
+            visited.add(vertex);
+            Set<Integer> neighbors = graph.get(vertex);
+            if(neighbors != null) {
+                for(int neighbor : neighbors) {
+                    if(neighbor == parent)
+                       continue;
+                    queue.add(new int[]{neighbor, vertex});   
+                }
+            }    
+        }
+        return visited.size() == n;
     }
 }
 ```
